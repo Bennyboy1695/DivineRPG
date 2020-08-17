@@ -124,8 +124,8 @@ public class VetheaChunkGenerator implements IChunkGenerator {
         switch (position) {
             case 0:
 
-                level.addStructure(new Crypt1(world, 10));
-                level.addStructure(new Crypt2(world, 12));
+                //level.addStructure(new Crypt1(world, 10));
+                //level.addStructure(new Crypt2(world, 12));
 
                 for (int i = 4; i <= 6; i++) {
                     level.addWorldGen(new WorldGenEnhanced(
@@ -138,9 +138,9 @@ public class VetheaChunkGenerator implements IChunkGenerator {
 
             case 1:
 
-                level.addStructure(new Hive(world, 64));
-                level.addStructure(new Temple1(world, 64));
-                level.addStructure(new Temple2(world, 64));
+                //level.addStructure(new Hive(world, 64));
+                //level.addStructure(new Temple1(world, 64));
+                //level.addStructure(new Temple2(world, 64));
 
 
                 level.addWorldGen(new WorldGenEnhanced(
@@ -156,8 +156,8 @@ public class VetheaChunkGenerator implements IChunkGenerator {
 
             case 2:
 
-                level.addStructure(new QuadroticPost(world, 112));
-                level.addStructure(new KarosMadhouse(world, 112));
+                //level.addStructure(new QuadroticPost(world, 112));
+                //level.addStructure(new KarosMadhouse(world, 112));
 
                 for (int i = 7; i <= 8; i++) {
                     level.addWorldGen(new WorldGenEnhanced(
@@ -169,9 +169,9 @@ public class VetheaChunkGenerator implements IChunkGenerator {
                 break;
 
             case 3:
-                level.addStructure(new Evergarden(world, 160));
-                level.addStructure(new RaglokChamber(world, 160));
-                level.addStructure(new WreckHall(world, 160));
+                //level.addStructure(new Evergarden(world, 160));
+                //level.addStructure(new RaglokChamber(world, 160));
+                //level.addStructure(new WreckHall(world, 160));
 
                 addFlowers(level, surfaceLevel, BlockRegistry.shimmer, BlockRegistry.shineGrass, BlockRegistry.dreamglow);
                 break;

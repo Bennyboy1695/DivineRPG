@@ -45,9 +45,12 @@ public class IceikaChunkGenerator implements IChunkGenerator
         this.rand = new Random((seed + 516) * 314);
         terraingen.setup(world, rand);
 		caveGenerator = new IceikaCaves();
-
-		this.archerDungeonGenerator = new ArcherDungeon(world);
-		this.rollumDungeonGenerator = new RollumDungeon(world);
+		try {
+			this.archerDungeonGenerator = new ArcherDungeon(world);
+		} catch (Exception ignored) {}
+		try {
+			this.rollumDungeonGenerator = new RollumDungeon(world);
+		} catch (Exception ignored) {}
 	}
 
 
@@ -98,8 +101,8 @@ public class IceikaChunkGenerator implements IChunkGenerator
 		caveGenerator.generate(world, x, z, chunkprimer);
 
 		//Generate dungeons
-		this.archerDungeonGenerator.generate(this.world, x, z, chunkprimer);
-		this.rollumDungeonGenerator.generate(this.world, x, z, chunkprimer);
+/*		this.archerDungeonGenerator.generate(this.world, x, z, chunkprimer);
+		this.rollumDungeonGenerator.generate(this.world, x, z, chunkprimer);*/
 
 
         Chunk chunk = new Chunk(this.world, chunkprimer, x, z);
@@ -161,8 +164,8 @@ public class IceikaChunkGenerator implements IChunkGenerator
 		ChunkPos chunkpos = new ChunkPos(chunkX, chunkZ);
 
 		//Actually generate dungeons
-		this.archerDungeonGenerator.generateStructure(this.world, this.rand, chunkpos);
-		this.rollumDungeonGenerator.generateStructure(this.world, this.rand, chunkpos);
+/*		this.archerDungeonGenerator.generateStructure(this.world, this.rand, chunkpos);
+		this.rollumDungeonGenerator.generateStructure(this.world, this.rand, chunkpos);*/
 
 		if(this.rand.nextInt(35) == 0) {
 			int x = baseX + rand.nextInt(16);

@@ -12,7 +12,13 @@ import net.minecraft.world.gen.structure.StructureStart;
 
 public class ArcherDungeon extends DivineLargeStructure {
     public ArcherDungeon(World world) {
-        super(world, "ArcherDungeon", new ResourceLocation(DivineRPG.MODID, "iceika/dungeons/archer"), StructureRarities.ARCHER_DUNGEON_RARITY);
+        super(
+                world,
+                "ArcherDungeon",
+                new ResourceLocation(
+                        DivineRPG.MODID,
+                        "iceika/dungeons/archer"),
+                StructureRarities.ARCHER_DUNGEON_RARITY);
     }
 
     @Override
