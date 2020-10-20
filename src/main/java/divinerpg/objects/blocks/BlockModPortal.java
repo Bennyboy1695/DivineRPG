@@ -4,6 +4,7 @@ import divinerpg.DivineRPG;
 import divinerpg.enums.ParticleType;
 import divinerpg.events.DimensionHelper;
 import divinerpg.registry.DimensionRegistry;
+import divinerpg.registry.DivineRPGTabs;
 import divinerpg.utils.portals.description.IPortalDescription;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBreakable;
@@ -14,6 +15,7 @@ import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.block.state.pattern.BlockPattern;
 import net.minecraft.entity.Entity;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -58,8 +60,9 @@ public class BlockModPortal extends BlockBreakable {
         this.setRegistryName(DivineRPG.MODID, name);
         this.setUnlocalizedName(name);
         this.setTickRandomly(true);
-        this.setCreativeTab(null);
+        this.setCreativeTab(DivineRPGTabs.BLOCKS);
         this.setBlockUnbreakable();
+        this.setSoundType(Blocks.PORTAL.getSoundType());
 
         this.dimId = dimId;
         //this.fireBlockSupplier = fireBlockSupplier;

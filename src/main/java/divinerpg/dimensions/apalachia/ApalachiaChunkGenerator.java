@@ -1,9 +1,11 @@
 package divinerpg.dimensions.apalachia;
 
+import java.util.ArrayList;
+
 import divinerpg.dimensions.IslandChunkGeneratorBase;
 import divinerpg.registry.BlockRegistry;
 import divinerpg.registry.StructureRegistry;
-import divinerpg.utils.DRPGStructureHandler;
+import divinerpg.structure.base.DRPGStructureHandler;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldEntitySpawner;
@@ -27,13 +29,26 @@ public class ApalachiaChunkGenerator extends IslandChunkGeneratorBase {
         BlockPos pos = new BlockPos(baseX, 0, baseZ);
         Biome biome = this.world.getBiome(new BlockPos(baseX, 0, baseZ));
 
-        if(this.rand.nextInt(30) == 0) {
-            int x = baseX + rand.nextInt(16);
-            int z = baseZ + rand.nextInt(16);
+        if(this.rand.nextInt(60) == 0) {
+            int x = baseX + this.rand.nextInt(16);
+            int z = baseZ + this.rand.nextInt(16);
             int y = world.getHeight(x, z);
 
             if(this.world.getBlockState(new BlockPos(x + 3, y - 1, z + 3)).getBlock() == BlockRegistry.apalachiaGrass) {
                 StructureRegistry.ETERNAL_ARCHER_DUNGEON.generate(world, this.rand, new BlockPos(x, y, z));
+            }
+            
+        }
+
+        if(this.rand.nextInt(20) == 0) {
+            int x = baseX + this.rand.nextInt(16);
+            int z = baseZ + this.rand.nextInt(16);
+            int y = world.getHeight(x, z);
+
+            if(this.world.getBlockState(new BlockPos(x, y - 1, z)).getBlock() == BlockRegistry.apalachiaGrass) {
+                int listSize = StructureRegistry.APALACHIA_SMALL_STRUCTURES.size();
+                DRPGStructureHandler structure = StructureRegistry.APALACHIA_SMALL_STRUCTURES.get(this.rand.nextInt(listSize));
+                structure.generate(world, this.rand, new BlockPos(x, y, z));
             }
         }
 

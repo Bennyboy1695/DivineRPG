@@ -1,86 +1,182 @@
 package divinerpg.utils.portals.description;
 
-import com.google.common.collect.Sets;
+import divinerpg.dimensions.arcana.ArcanaRooms;
+import divinerpg.dimensions.arcana.mazegen.ArcanaMazeGenerator;
+import divinerpg.dimensions.arcana.mazegen.Cell;
+import divinerpg.registry.BlockRegistry;
 import divinerpg.registry.DimensionRegistry;
-import divinerpg.utils.PositionHelper;
-import divinerpg.utils.portals.ServerPortal;
-import divinerpg.utils.portals.WorkingPortalInfo;
-import net.minecraft.block.Block;
-import net.minecraft.block.state.pattern.BlockPattern;
+import divinerpg.registry.StructureRegistry;
+import divinerpg.structure.arcana.ArcanaStructureHandler;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.ChunkPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldServer;
+import net.minecraftforge.common.util.ITeleporter;
 
 import javax.annotation.Nullable;
-import java.util.List;
-import java.util.Set;
+import java.util.Random;
 
-public class ArcanaTeleporter extends ServerPortal {
-    public ArcanaTeleporter(int recheckDelay) {
-        super(256, recheckDelay);
+public class ArcanaTeleporter implements ITeleporter {
+
+    public static final int PORTAL_SEARCH_CHUNK_RADIUS = 4;
+
+    protected WorldServer world;
+    protected Random random = new Random();
+
+    public ArcanaTeleporter(WorldServer var1) {
+        this.world = var1;
     }
 
-    @Nullable
-    @Override
-    protected BlockPattern.PatternHelper findFromCache(World world, IPortalDescription description, List<WorkingPortalInfo> activePortals, BlockPos pos, int radius) {
-        return super.findFromCache(world, description, activePortals, pos, 512);
-    }
+    public void placeInPortal(Entity entity, float rotationYaw) {
+        int chunkX;
+        int chunkZ;
 
-    @Nullable
-    @Override
-    protected BlockPattern.PatternHelper scanWorld(World world, IPortalDescription description, BlockPos min, BlockPos max) {
-        Set<Block> set = Sets.newHashSet(description.getFrame(), description.getPortal());
-        BlockPos portalSize = description.getMaxSize();
-        BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
+        if (this.world.provider.getDimensionType().getId() == DimensionRegistry.arcanaDimension.getId()) {
+            chunkX = (MathHelper.floor(entity.posX) & ~0xf) / 16;
+            chunkZ = (MathHelper.floor(entity.posZ) & ~0xf) / 16;
+            if (!(this.placeInExistingPortal(entity, rotationYaw))) {
+                this.makePortalRoom(chunkX, chunkZ);
+                this.placeInExistingPortal(entity, rotationYaw);
+            }
+        }
+        else {
+            //Adjust player position for +8 anti-cascading offset first
+            chunkX = ((MathHelper.floor(entity.posX) - 8) & ~0xf) / 16;
+            chunkZ = ((MathHelper.floor(entity.posZ) - 8) & ~0xf) / 16;
 
-        for (int x = min.getX(), xEnd = max.getX(); x < xEnd; x += portalSize.getX()) {
-            for (int z = min.getZ(), zEnd = max.getZ(); z < zEnd; z += portalSize.getZ()) {
-                for (int y = min.getY(), yEnd = max.getY(); y < yEnd; y += portalSize.getY()) {
-                    pos.setPos(x, y, z);
-
-                    if (set.contains(world.getBlockState(pos).getBlock())) {
-
-                        BlockPattern.PatternHelper portal = description.matchWorkingPortal(world, pos);
-                        if (portal != null)
-                            return portal;
-                    }
+            BlockPos pos = locateOverworldPortal(this.world, chunkX, chunkZ);
+            if(pos == null) {
+                BlockPos spawnPoint = null;
+                if(entity instanceof EntityPlayer) {
+                    EntityPlayer player = (EntityPlayer)entity;
+                    spawnPoint = player.getBedLocation(0);
                 }
+                if(spawnPoint == null) {
+                    spawnPoint = this.world.getTopSolidOrLiquidBlock(this.world.getSpawnPoint());
+                }
+                entity.moveToBlockPosAndAngles(spawnPoint, entity.rotationYaw, entity.rotationPitch);
+            }
+            else {
+                entity.moveToBlockPosAndAngles(pos, entity.rotationYaw, entity.rotationPitch);
+            }
+        }
+    }
+
+    private BlockPos locateOverworldPortal(World world, int chunkX, int chunkZ) {
+        //Attempt to locate portal within chunks, going outwards
+        BlockPos pos = null;
+        for (int radius = 0; radius <= PORTAL_SEARCH_CHUNK_RADIUS; radius++) {
+            pos = locatePortalByRadius(world, chunkX, chunkZ, radius);
+            if (pos != null) {
+                break;
+            }
+        }
+        return pos;
+    }
+
+    @Nullable
+    private BlockPos locatePortalByRadius(World world, int chunkX, int chunkZ, int radius) {
+        //Check all chunks a <radius> distance from chunkX
+        //Yeah it's messy but it's the efficient enough
+
+        for(int currentChunkX = chunkX - radius; currentChunkX <= chunkX + radius; currentChunkX++) {
+            BlockPos result = locatePortalInChunk(world, currentChunkX, chunkZ - radius);
+            if(result != null) {
+                return result;
+            }
+
+            result = locatePortalInChunk(world, currentChunkX, chunkZ + radius);
+            if(result != null) {
+                return result;
             }
         }
 
+        for(int currentChunkZ = chunkZ - radius + 1; currentChunkZ <= chunkZ + radius - 1; currentChunkZ++) {
+            BlockPos result = locatePortalInChunk(world, chunkX - radius, currentChunkZ);
+            if(result != null) {
+                return result;
+            }
+
+            result = locatePortalInChunk(world, chunkX + radius, currentChunkZ);
+            if(result != null) {
+                return result;
+            }
+        }
 
         return null;
     }
 
-    @Override
-    protected BlockPos findSuitablePosition(World destination, IPortalDescription description, Entity e, int radius) {
-        if (destination.provider.getDimensionType() == DimensionRegistry.arcanaDimension) {
-            ChunkPos chunkPos = new ChunkPos(e.getPosition());
-
-            // store here entity position
-            BlockPos.MutableBlockPos result = new BlockPos.MutableBlockPos(chunkPos.getBlock(7, 8, 7));
-
-            // use BlockPos as ChunkPos. I know it's awfull
-            PositionHelper.searchInRadius(destination, new BlockPos(chunkPos.x, 8, chunkPos.z), radius / 16, x -> {
-                BlockPos block = new ChunkPos(x.getX(), x.getZ()).getBlock(7, 8, 7);
-
-                while (block.getY() < 40) {
-                    if (!destination.isAirBlock(block) && !destination.isAirBlock(block.add(0, 0, 1))) {
-                        result.setPos(block);
-                        return true;
+    @Nullable
+    private BlockPos locatePortalInChunk(World world, int chunkX, int chunkZ) {
+        BlockPos.MutableBlockPos searchPos = new BlockPos.MutableBlockPos();
+        int baseX = chunkX * 16;
+        int baseZ = chunkZ * 16;
+        for(int y = 0; y < 256; y++) {
+            for(int x = 0; x < 16; x++) {
+                for(int z = 0; z < 16; z++) {
+                    searchPos.setPos(baseX + x, y, baseZ + z);
+                    if(world.getBlockState(searchPos).getBlock() == BlockRegistry.arcanaPortal) {
+                        return searchPos;
                     }
-
-                    block = block.up(8);
                 }
+            }
+        }
+        return null;
+    }
 
-                return false;
-            });
+    public boolean placeInExistingPortal(Entity entity, float rotationYaw) {
+        if (this.world.provider.getDimensionType().getId() == DimensionRegistry.arcanaDimension.getId()) {
+            //Convert player location to chunk
+            int chunkX = (MathHelper.floor(entity.posX) & ~0xf) / 16;
+            int chunkZ = (MathHelper.floor(entity.posZ) & ~0xf) / 16;
 
-            return result;
+            //Coordinates where portal frame should be. Accounts for constant +8 offset in chunk generator to prevent cascading
+            int portalLocationX = (chunkX * 16) + 6 + 8;
+            int portalLocationY = 9;
+            int portalLocationZ = (chunkZ * 16) + 5 + 8;
+
+            // Find existing portal, first check the room corresponding to the chunk as this covers the most likely cases
+            if (this.world.getBlockState(new BlockPos(portalLocationX, portalLocationY, portalLocationZ)).getBlock() == BlockRegistry.arcanaHardPortalFrame) {
+                entity.setLocationAndAngles(portalLocationX + 1.5D, portalLocationY, portalLocationZ + 2.5D, entity.rotationYaw, 0.0F);
+                entity.motionX = entity.motionY = entity.motionZ = 0.0D;
+                return true;
+            }
+            else {
+                //Search in 15x15 chunk region centered around portal
+                BlockPos.MutableBlockPos searchPos = new BlockPos.MutableBlockPos();
+                for(int searchX = portalLocationX - (PORTAL_SEARCH_CHUNK_RADIUS * 16); searchX < portalLocationX + (PORTAL_SEARCH_CHUNK_RADIUS * 16); searchX += 16) {
+                    for (int searchZ = portalLocationZ - (PORTAL_SEARCH_CHUNK_RADIUS * 16); searchZ < portalLocationZ + (PORTAL_SEARCH_CHUNK_RADIUS * 16); searchZ += 16) {
+                        searchPos.setPos(searchX, portalLocationY, searchZ);
+                        if (this.world.getBlockState(searchPos).getBlock() == BlockRegistry.arcanaHardPortalFrame) {
+                            entity.setLocationAndAngles(searchX + 1.5D, portalLocationY, searchZ + 2.5D, entity.rotationYaw, 0.0F);
+                            entity.motionX = entity.motionY = entity.motionZ = 0.0D;
+                            return true;
+                        }
+                    }
+                }
+            }
+
+            //No portal found, return false
+            return false;
         }
 
+        return false;
+    }
 
-        return super.findSuitablePosition(destination, description, e, radius);
+    public void makePortalRoom(int chunkX, int chunkZ) {
+        Cell cell = ArcanaMazeGenerator.obtainMazePiece(chunkX, chunkZ, this.world.getSeed());
+        ArcanaStructureHandler portalRoom = ArcanaRooms.getPortalRoomByType(cell.getPieceType());
+        portalRoom.generateWithRotation(this.world, this.random, new BlockPos(chunkX * 16 + 8, 8, chunkZ * 16 + 8), cell.getRotation());
+    }
+
+    public void placeEntity(World world, Entity entity, float yaw) {
+        if (entity instanceof EntityPlayerMP) {
+            this.placeInPortal(entity, yaw);
+        } else {
+            this.placeInExistingPortal(entity, yaw);
+        }
     }
 }

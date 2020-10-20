@@ -8,34 +8,10 @@ import divinerpg.dimensions.TwilightTree;
 import divinerpg.dimensions.eden.EdenTree;
 import divinerpg.dimensions.iceika.IceTreeGen;
 import divinerpg.dimensions.mortum.MortumTree;
-import divinerpg.dimensions.wildwood.WildWoodTree;
+import divinerpg.dimensions.wildwood.WildwoodTree;
 import divinerpg.enums.ParticleType;
 import divinerpg.enums.StatueType;
-import divinerpg.objects.blocks.BlockBeaconBase;
-import divinerpg.objects.blocks.BlockMod;
-import divinerpg.objects.blocks.BlockModBridge;
-import divinerpg.objects.blocks.BlockModDirt;
-import divinerpg.objects.blocks.BlockModDoor;
-import divinerpg.objects.blocks.BlockModFire;
-import divinerpg.objects.blocks.BlockModGlass;
-import divinerpg.objects.blocks.BlockModGrass;
-import divinerpg.objects.blocks.BlockModLadder;
-import divinerpg.objects.blocks.BlockModLamp;
-import divinerpg.objects.blocks.BlockModLeaves;
-import divinerpg.objects.blocks.BlockModLight;
-import divinerpg.objects.blocks.BlockModLog;
-import divinerpg.objects.blocks.BlockModOre;
-import divinerpg.objects.blocks.BlockModPlank;
-import divinerpg.objects.blocks.BlockModPortal;
-import divinerpg.objects.blocks.BlockModSapling;
-import divinerpg.objects.blocks.BlockModSlab;
-import divinerpg.objects.blocks.BlockModSpawner;
-import divinerpg.objects.blocks.BlockModStairs;
-import divinerpg.objects.blocks.BlockModTorch;
-import divinerpg.objects.blocks.BlockModUnbreakable;
-import divinerpg.objects.blocks.BlockModVine;
-import divinerpg.objects.blocks.BlockSingleUseSpawner;
-import divinerpg.objects.blocks.BlockStatue;
+import divinerpg.objects.blocks.*;
 import divinerpg.objects.blocks.arcana.*;
 import divinerpg.objects.blocks.iceika.*;
 import divinerpg.objects.blocks.twilight.BlockBrambles;
@@ -77,6 +53,8 @@ public class BlockRegistry {
     private static int WOOD_GOLD = 0, STONE = 1, IRON = 2, DIAMOND = 3, EDEN = 6, WILDWOOD = 7, APALACHIA = 8, SKYTHERN = 9, MORTUM = 10;
     private static List<Block> blockList = new ArrayList<Block>();
     private static List<Item> blockItemList = new ArrayList<>();
+    private static List<Block> slabList = new ArrayList<>();
+
     // Vanilla dimensions
 
     // Ores
@@ -212,6 +190,8 @@ public class BlockRegistry {
     public static final Block apalachiaBricks = null;
     @ObjectHolder("skythern_bricks")
     public static final Block skythernBricks = null;
+    @ObjectHolder("mortum_bricks")
+    public static final Block mortumBricks = null;
 
     // Minibricks
     @ObjectHolder("minibricks")
@@ -322,6 +302,8 @@ public class BlockRegistry {
     public static final Block altarOfCorruption = null;
     @ObjectHolder("bone_chest")
     public static final Block boneChest = null;
+    @ObjectHolder("frosted_allure")
+    public static final Block frostedAllure = null;
 
     // Divine blocks
     @ObjectHolder("divine_sapling")
@@ -620,6 +602,10 @@ public class BlockRegistry {
     public static final Block frozenSlab = null;
     @ObjectHolder("eucalyptus_slab")
     public static final Block eucalyptusSlab = null;
+    @ObjectHolder("ancient_brick_slab")
+    public static final Block ancientBrickSlab = null;
+    @ObjectHolder("degraded_brick_slab")
+    public static final Block degradedBrickSlab = null;
 
     //Double Slab
     @ObjectHolder("eden_double_slab")
@@ -638,6 +624,20 @@ public class BlockRegistry {
     public static final Block frozenDoubleSlab = null;
     @ObjectHolder("eucalyptus_double_slab")
     public static final Block eucalyptusDoubleSlab = null;
+    @ObjectHolder("ancient_brick_double_slab")
+    public static final Block ancientBrickDoubleSlab = null;
+    @ObjectHolder("degraded_brick_double_slab")
+    public static final Block degradedBrickDoubleSlab = null;
+    @ObjectHolder("ancient_brick_double_slab_breakable")
+    public static final Block ancientBrickDoubleSlabBreakable = null;
+    @ObjectHolder("degraded_brick_double_slab_breakable")
+    public static final Block degradedBrickDoubleSlabBreakable = null;
+
+    // Walls
+    @ObjectHolder("ancient_brick_wall")
+    public static final Block ancientBrickWall = null;
+    @ObjectHolder("degraded_brick_wall")
+    public static final Block degradedBrickWall = null;
 
     // Compressed blocks
     @ObjectHolder("eden_block")
@@ -650,6 +650,16 @@ public class BlockRegistry {
     public static final Block skythernBlock = null;
     @ObjectHolder("mortum_block")
     public static final Block mortumBlock = null;
+
+    // Boss spawners
+    @ObjectHolder("sunstorm_spawner")
+    public static final Block sunstormSpawner = null;
+    @ObjectHolder("termasect_spawner")
+    public static final Block termasectSpawner = null;
+    @ObjectHolder("eternal_archer_spawner")
+    public static final Block eternalArcherSpawner = null;
+    @ObjectHolder("experienced_cori_spawner")
+    public static final Block experiencedCoriSpawner = null;
 
     // Twilight dimension ground foliage
     // Eden
@@ -739,27 +749,39 @@ public class BlockRegistry {
     public static final BlockModGrass arcaniteGrass = null;
 
     // Ore
-    @ObjectHolder("arcanium_ore")
-    public static final Block arcaniumOre = null;
+    @ObjectHolder("raw_arcanium")
+    public static final Block rawArcanium = null;
+
+    // Storage block
+    @ObjectHolder("arcanium_block")
+    public static final Block arcaniumBlock = null;
 
     // Structure blocks
     // Normal
-    @ObjectHolder("ancient_brick")
-    public static final Block ancientBrick = null;
+    @ObjectHolder("ancient_bricks")
+    public static final Block ancientBricks = null;
+    @ObjectHolder("ancient_brick_stairs")
+    public static final Block ancientBrickStairs = null;
     @ObjectHolder("ancient_stone")
     public static final Block ancientStone = null;
     @ObjectHolder("ancient_tile")
     public static final Block ancientTile = null;
     @ObjectHolder("arcanite_tubes")
     public static final Block arcaniteTubes = null;
+    @ObjectHolder("arcanite_ladder")
+    public static final Block arcaniteLadder = null;
     @ObjectHolder("arcanium_metal")
     public static final Block arcaniumMetal = null;
     @ObjectHolder("arcanium_power")
     public static final Block arcaniumPower = null;
     @ObjectHolder("dark_degraded_brick")
     public static final Block darkDegradedBrick = null;
-    @ObjectHolder("degraded_brick")
-    public static final Block degradedBrick = null;
+    @ObjectHolder("degraded_bricks")
+    public static final Block degradedBricks = null;
+    @ObjectHolder("degraded_brick_stairs")
+    public static final Block degradedBrickStairs = null;
+    @ObjectHolder("dungeon_bookshelf")
+    public static final Block dungeonBookshelf = null;
     @ObjectHolder("dungeon_lamp")
     public static final Block dungeonLamp = null;
     @ObjectHolder("heat_trap")
@@ -773,6 +795,38 @@ public class BlockRegistry {
     @ObjectHolder("soul_stone")
     public static final Block soulStone = null;
 
+    // Breakable
+    @ObjectHolder("ancient_bricks_breakable")
+    public static final Block ancientBricksBreakable = null;
+    @ObjectHolder("ancient_brick_stairs_breakable")
+    public static final Block ancientBrickStairsBreakable = null;
+    @ObjectHolder("ancient_brick_slab_breakable")
+    public static final Block ancientBrickSlabBreakable = null;
+    @ObjectHolder("ancient_brick_wall_breakable")
+    public static final Block ancientBrickWallBreakable = null;
+    @ObjectHolder("ancient_stone_breakable")
+    public static final Block ancientStoneBreakable = null;
+    @ObjectHolder("ancient_tile_breakable")
+    public static final Block ancientTileBreakable = null;
+    @ObjectHolder("arcanium_metal_breakable")
+    public static final Block arcaniumMetalBreakable = null;
+    @ObjectHolder("arcanium_power_breakable")
+    public static final Block arcaniumPowerBreakable = null;
+    @ObjectHolder("degraded_bricks_breakable")
+    public static final Block degradedBricksBreakable = null;
+    @ObjectHolder("degraded_brick_stairs_breakable")
+    public static final Block degradedBrickStairsBreakable = null;
+    @ObjectHolder("degraded_brick_slab_breakable")
+    public static final Block degradedBrickSlabBreakable = null;
+    @ObjectHolder("degraded_brick_wall_breakable")
+    public static final Block degradedBrickWallBreakable = null;
+    @ObjectHolder("dungeon_lamp_breakable")
+    public static final Block dungeonLampBreakable = null;
+    @ObjectHolder("soul_sludge_breakable")
+    public static final Block soulSludgeBreakable = null;
+    @ObjectHolder("soul_stone_breakable")
+    public static final Block soulStoneBreakable = null;
+
     // Door
     @ObjectHolder("ancient_brick_door")
     public static final Block ancientBrickDoor = null;
@@ -782,20 +836,6 @@ public class BlockRegistry {
     public static final Block soulSludgeDoor = null;
     @ObjectHolder("soul_stone_door")
     public static final Block soulStoneDoor = null;
-
-    // Spawner
-    @ObjectHolder("death_hound_spawner")
-    public static final Block deathHoundSpawner = null;
-    @ObjectHolder("deathcryx_spawner")
-    public static final Block deathcryxSpawner = null;
-    @ObjectHolder("dungeon_prisoner_spawner")
-    public static final Block dungeonPrisonerSpawner = null;
-    @ObjectHolder("living_statue_spawner")
-    public static final Block livingStatueSpawner = null;
-    @ObjectHolder("razorback_spawner")
-    public static final Block razorbackSpawner = null;
-    @ObjectHolder("roamer_spawner")
-    public static final Block roamerSpawner = null;
 
     // Utility
     @ObjectHolder("arcanium_extractor")
@@ -1086,22 +1126,6 @@ public class BlockRegistry {
     @ObjectHolder("vethea_portal")
     public static final BlockModPortal vetheaPortal = null;
 
-//    @ObjectHolder("king_compression")
-//    public static final Block king_compression = null;
-//
-//    @ObjectHolder("king_compression_still")
-//    public static final Block king_compression_still = null;
-
-    //newSpawners
-    @ObjectHolder("sunstorm_spawner")
-    public static final Block sunstormSpawner = null;
-    @ObjectHolder("termasect_spawner")
-    public static final Block termasectSpawner = null;
-    @ObjectHolder("eternal_archer_spawner")
-    public static final Block eternalArcherSpawner = null;
-    @ObjectHolder("experienced_cori_spawner")
-    public static final Block experiencedCoriSpawner = null;
-
     @SubscribeEvent
     public static void registerBlocks(RegistryEvent.Register<Block> event) {
         DivineRPG.logger.info("Registering DivineRPG blocks");
@@ -1123,6 +1147,12 @@ public class BlockRegistry {
         register(registry, new BlockBeaconBase("rupee_block", 5.0F, Material.IRON, 3));
         register(registry, new BlockBeaconBase("bloodgem_block", 5.0F, Material.IRON, 3));
         register(registry, new BlockBeaconBase("netherite_block", 5.0F, Material.IRON, 3));
+
+        // Boss spawners
+        register(registry, new BlockSingleUseSpawner("sunstorm_spawner", EntitySunstorm.class, () -> ItemRegistry.edenChunk, 20 * 5, 5));
+        register(registry, new BlockSingleUseSpawner("termasect_spawner", EntityTermasect.class, () -> ItemRegistry.wildwoodChunk,20 * 5, 5, new BlockPos(0, 11, 0)));
+        register(registry, new BlockSingleUseSpawner("eternal_archer_spawner", EntityEternalArcher.class, () -> ItemRegistry.apalachiaChunk, 20 * 5, 5));
+        register(registry, new BlockSingleUseSpawner("experienced_cori_spawner", EntityExperiencedCori.class, () -> ItemRegistry.skythernChunk, 20 * 5, 5, new BlockPos(0, 11, 0)));
 
         // Mob pumpkins
         register(registry, new BlockMobPumpkin("blaze_pumpkin", SoundEvents.ENTITY_BLAZE_AMBIENT));
@@ -1184,6 +1214,7 @@ public class BlockRegistry {
         register(registry, new BlockMod("wildwood_bricks", 3.0F).setResistance(30.0F));
         register(registry, new BlockMod("apalachia_bricks", 3.0F).setResistance(30.0F));
         register(registry, new BlockMod("skythern_bricks", 3.0F).setResistance(30.0F));
+        register(registry, new BlockMod("mortum_bricks", 3.0F).setResistance(30.0F));
 
         // Minibricks
         register(registry, new BlockMod("minibricks", 3.0F).setResistance(30.0F));
@@ -1245,6 +1276,7 @@ public class BlockRegistry {
         // Utility blocks
         register(registry, new BlockAltarOfCorruption("altar_of_corruption"));
         register(registry, new BlockBoneChest("bone_chest"));
+        register(registry, new BlockFrostedAllure("frosted_allure"));
 
         // Divine blocks
         register(registry, new BlockModSapling("divine_sapling", () -> Blocks.GRASS, () -> Blocks.DIRT, new DivineTree(true)));
@@ -1311,7 +1343,6 @@ public class BlockRegistry {
         register(registry, new BlockModStairs("frozen_stairs", frozenPlanks));
         register(registry, new BlockModSapling("frozen_sapling", () -> frozenGrass, () -> frozenDirt, new IceTreeGen(true, true)));
 
-
         // Structure blocks
         Block coalstone = new BlockMod("coalstone", 3.0F);
         register(registry, coalstone);
@@ -1321,12 +1352,12 @@ public class BlockRegistry {
         register(registry, new BlockModSpawner("frost_archer_spawner", "frost_archer"));
         register(registry, new BlockFrostedChest("frosted_chest").setHardness(2.5F));
         register(registry, new BlockModGlass("frosted_glass", 1.0F));
-        register(registry, new BlockModUnbreakable("icy_bricks"));
-        register(registry, new BlockModUnbreakable("icy_stone"));
+        register(registry, new BlockMod("icy_bricks", 1.5F));
+        register(registry, new BlockMod("icy_stone", 2.0F));
         register(registry, new BlockModSpawner("rollum_spawner", "rollum"));
         register(registry, new BlockMod("snow_bricks", 6.0F));
         registerItemlessBlock(registry, new BlockModDoor("steel_door", Material.IRON, 7.0f, () -> ItemRegistry.steelDoor));
-        register(registry, new BlockMod("workshop_bookcase", 1.5F));
+        register(registry, new BlockModBookshelf("workshop_bookcase",1.5F, Material.ROCK));
         register(registry, new BlockMod("workshop_carpet", 0.1F, Material.CLOTH));
         register(registry, new BlockModLamp("workshop_lamp", 0.3F));
 
@@ -1381,7 +1412,7 @@ public class BlockRegistry {
 
         // Sapling
         register(registry, new BlockModSapling("eden_sapling", () -> edenGrass, () -> edenDirt, new EdenTree(true)));
-        register(registry, new BlockModSapling("wildwood_sapling", () -> wildwoodGrass, () -> wildwoodDirt, new WildWoodTree(true)));
+        register(registry, new BlockModSapling("wildwood_sapling", () -> wildwoodGrass, () -> wildwoodDirt, new WildwoodTree(true)));
         register(registry, new BlockModSapling("apalachia_sapling", () -> apalachiaGrass, () -> apalachiaDirt,
                 new TwilightTree(true,
                         5,
@@ -1488,18 +1519,27 @@ public class BlockRegistry {
         register(registry, new BlockArcaniteGrass("arcanite_grass", 0.6F));
 
         // Ore
-        register(registry, new BlockMod("arcanium_ore", 3.0F));
+        register(registry, new BlockRawArcanium("raw_arcanium"));
+
+        // Storage block
+        register(registry, new BlockBeaconBase("arcanium_block", 5.0F));
 
         // Structure blocks
         // Normal
-        register(registry, new BlockModUnbreakable("ancient_brick"));
+        Block ancientBricks = new BlockModUnbreakable("ancient_bricks");
+        register(registry, ancientBricks);
+        register(registry, new BlockModStairs("ancient_brick_stairs", ancientBricks));
         register(registry, new BlockModUnbreakable("ancient_stone"));
         register(registry, new BlockModUnbreakable("ancient_tile"));
         register(registry, new BlockModLadder("arcanite_tubes"));
-        register(registry, new BlockModUnbreakable("arcanium_metal"));
+        register(registry, new BlockModLadder("arcanite_ladder"));
+        register(registry, new BlockModPillar("arcanium_metal", Material.IRON, -1F).setResistance(6000000F));
         register(registry, new BlockModUnbreakable("arcanium_power"));
         register(registry, new BlockModUnbreakable("dark_degraded_brick"));
-        register(registry, new BlockModUnbreakable("degraded_brick"));
+        Block degradedBricks = new BlockModUnbreakable("degraded_bricks");
+        register(registry, degradedBricks);
+        register(registry, new BlockModStairs("degraded_brick_stairs", ancientBricks));
+        register(registry, new BlockModBookshelf("dungeon_bookshelf", 1.5F, Material.ROCK));
         register(registry, new BlockModUnbreakable("dungeon_lamp").setLightLevel(1.0F));
         register(registry, new BlockHeatTrap("heat_trap"));
         register(registry, new BlockHeatTrap("heat_trap_on"));
@@ -1507,19 +1547,33 @@ public class BlockRegistry {
         register(registry, new BlockModUnbreakable("soul_sludge"));
         register(registry, new BlockModUnbreakable("soul_stone"));
 
+        // Breakable
+        Block ancientBricksBreakable = new BlockMod("ancient_bricks_breakable", 2.0F);
+        register(registry, ancientBricksBreakable);
+        register(registry, new BlockModStairs("ancient_brick_stairs_breakable", ancientBricksBreakable));
+        registerSlab(registry, "ancient_brick_slab_breakable", ancientBricksBreakable, 2.0F);
+        register(registry, new BlockModWall("ancient_brick_wall_breakable", ancientBricksBreakable, 2.0F));
+        register(registry, new BlockMod("ancient_stone_breakable", 2.0F));
+        register(registry, new BlockMod("ancient_tile_breakable", 2.0F));
+        register(registry, new BlockModPillar("arcanium_metal_breakable", Material.IRON,2.0F));
+        register(registry, new BlockMod("arcanium_power_breakable", 2.0F));
+        Block degradedBricksBreakable = new BlockMod("degraded_bricks_breakable", 2.0F);
+        register(registry, degradedBricksBreakable);
+        register(registry, new BlockModStairs("degraded_brick_stairs_breakable", degradedBricksBreakable));
+        registerSlab(registry, "degraded_brick_slab_breakable", degradedBricksBreakable, 2.0F);
+        register(registry, new BlockModWall("degraded_brick_wall_breakable", degradedBricksBreakable, 2.0F));
+        register(registry, new BlockMod("dungeon_lamp_breakable", 1.0F).setLightLevel(1.0F));
+        //heat trap (?)
+        register(registry, new BlockMod("soul_sludge_breakable", 2.0F));
+        register(registry, new BlockMod("soul_stone_breakable", 2.0F));
+
+
+
         // Door
         registerItemlessBlock(registry, new BlockArcanaDoor("ancient_brick_door", () -> ItemRegistry.ancientKey, () -> ItemRegistry.ancientBrickDoor));
         registerItemlessBlock(registry, new BlockArcanaDoor("degraded_brick_door", () -> ItemRegistry.degradedKey, () -> ItemRegistry.degradedBrickDoor));
         registerItemlessBlock(registry, new BlockArcanaDoor("soul_sludge_door", () -> ItemRegistry.sludgeKey, () -> ItemRegistry.soulSludgeDoor));
         registerItemlessBlock(registry, new BlockArcanaDoor("soul_stone_door", () -> ItemRegistry.soulKey, () -> ItemRegistry.soulStoneDoor));
-
-        // Spawner
-        register(registry, new BlockArcanaSpawner("death_hound_spawner", "death_hound"));
-        register(registry, new BlockArcanaSpawner("deathcryx_spawner", "deathcryx"));
-        register(registry, new BlockArcanaSpawner("dungeon_prisoner_spawner", "dungeon_prisoner"));
-        register(registry, new BlockArcanaSpawner("living_statue_spawner", "living_statue"));
-        register(registry, new BlockArcanaSpawner("razorback_spawner", "razorback"));
-        register(registry, new BlockArcanaSpawner("roamer_spawner", "roamer"));
 
         // Utility
         register(registry, new BlockArcaniumExtractor("arcanium_extractor"));
@@ -1706,36 +1760,21 @@ public class BlockRegistry {
         register(registry, new BlockModPortal("mortum_portal", DimensionRegistry.mortumDimension, () -> blueFire, () -> skythernBlock, ParticleType.MORTUM_PORTAL));
         register(registry, new BlockVetheaPortal("vethea_portal", DimensionRegistry.vetheaDimension, () -> blueFire, () -> mortumBlock, ParticleType.MORTUM_PORTAL));
 
-        //Slab
-        registerItemlessBlock(registry, new BlockModSlab("eden_slab", BlockModPlank.EnumType.EDEN, false));
-        registerItemlessBlock(registry, new BlockModSlab("wildwood_slab", BlockModPlank.EnumType.WILDWOOD, false));
-        registerItemlessBlock(registry, new BlockModSlab("apalachia_slab", BlockModPlank.EnumType.APALACHIA, false));
-        registerItemlessBlock(registry, new BlockModSlab("skythern_slab", BlockModPlank.EnumType.SKYTHERN, false));
-        registerItemlessBlock(registry, new BlockModSlab("mortum_slab", BlockModPlank.EnumType.MORTUM, false));
-        registerItemlessBlock(registry, new BlockModSlab("divine_slab", BlockModPlank.EnumType.DIVINE, false));
-        registerItemlessBlock(registry, new BlockModSlab("frozen_slab", BlockModPlank.EnumType.FROZEN, false));
-        registerItemlessBlock(registry, new BlockModSlab("eucalyptus_slab", BlockModPlank.EnumType.EUCALYPTUS, false));
+        //Slabs
+        registerSlab(registry, "eden_slab", edenPlanks, 2.0F);
+        registerSlab(registry, "wildwood_slab", wildwoodPlanks, 2.0F);
+        registerSlab(registry, "apalachia_slab", apalachiaPlanks, 2.0F);
+        registerSlab(registry, "skythern_slab", skythernPlanks, 2.0F);
+        registerSlab(registry, "mortum_slab", mortumPlanks, 2.0F);
+        registerSlab(registry, "divine_slab", divinePlanks, 2.0F);
+        registerSlab(registry, "frozen_slab", frozenPlanks, 2.0F);
+        registerSlab(registry, "eucalyptus_slab", eucalyptusPlanks, 2.0F);
+        registerSlab(registry, "ancient_brick_slab", ancientBricks, -1F);
+        registerSlab(registry, "degraded_brick_slab", degradedBricks, -1F);
 
-        //Double Slab
-        registerItemlessBlock(registry, new BlockModSlab("eden_double_slab", BlockModPlank.EnumType.EDEN, true));
-        registerItemlessBlock(registry, new BlockModSlab("wildwood_double_slab", BlockModPlank.EnumType.WILDWOOD, true));
-        registerItemlessBlock(registry, new BlockModSlab("apalachia_double_slab", BlockModPlank.EnumType.APALACHIA, true));
-        registerItemlessBlock(registry, new BlockModSlab("skythern_double_slab", BlockModPlank.EnumType.SKYTHERN, true));
-        registerItemlessBlock(registry, new BlockModSlab("mortum_double_slab", BlockModPlank.EnumType.MORTUM, true));
-        registerItemlessBlock(registry, new BlockModSlab("divine_double_slab", BlockModPlank.EnumType.DIVINE, true));
-        registerItemlessBlock(registry, new BlockModSlab("frozen_double_slab", BlockModPlank.EnumType.FROZEN, true));
-        registerItemlessBlock(registry, new BlockModSlab("eucalyptus_double_slab", BlockModPlank.EnumType.EUCALYPTUS, true));
-
-//        register(registry, new KingCompressor("king_compression", true));
-//        register(registry, new KingCompressor("king_compression_still", false));
-
-        //
-        // newSpawners
-        //
-        register(registry, new BlockSingleUseSpawner("sunstorm_spawner", EntitySunstorm.class, () -> ItemRegistry.edenChunk, 20 * 5, 5));
-        register(registry, new BlockSingleUseSpawner("termasect_spawner", EntityTermasect.class, () -> ItemRegistry.wildwoodChunk,20 * 5, 5, new BlockPos(0, 11, 0)));
-        register(registry, new BlockSingleUseSpawner("eternal_archer_spawner", EntityEternalArcher.class, () -> ItemRegistry.apalachiaChunk, 20 * 5, 5));
-        register(registry, new BlockSingleUseSpawner("experienced_cori_spawner", EntityExperiencedCori.class, () -> ItemRegistry.skythernChunk, 20 * 5, 5, new BlockPos(0, 11, 0)));
+        //Walls
+        register(registry, new BlockModWall("ancient_brick_wall", ancientBricks, -1F));
+        register(registry, new BlockModWall("degraded_brick_wall", degradedBricks, -1F));
     }
 
     @SubscribeEvent(priority = EventPriority.HIGH)
@@ -1758,5 +1797,12 @@ public class BlockRegistry {
 
     private static void registerItemlessBlock(IForgeRegistry<Block> registry, Block block) {
         registry.register(block);
+    }
+
+    private static void registerSlab(IForgeRegistry<Block> registry, String name, Block base, float hardness) {
+        String doubleSlabName = name.replace("_slab", "_double_slab");
+        BlockModSlab halfSlab = new BlockModSlab(name, base, hardness,null,false);
+        registerItemlessBlock(registry, halfSlab);
+        registerItemlessBlock(registry, new BlockModSlab(doubleSlabName, base, hardness, halfSlab,true));
     }
 }

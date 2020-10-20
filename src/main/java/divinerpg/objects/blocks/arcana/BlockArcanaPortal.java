@@ -1,8 +1,12 @@
 package divinerpg.objects.blocks.arcana;
 
 import divinerpg.DivineRPG;
+import divinerpg.config.GeneralConfig;
 import divinerpg.events.DimensionHelper;
+import divinerpg.registry.BlockRegistry;
 import divinerpg.registry.DimensionRegistry;
+import divinerpg.registry.DivineRPGTabs;
+import divinerpg.utils.portals.description.ArcanaTeleporter;
 import divinerpg.utils.portals.description.IPortalDescription;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
@@ -17,6 +21,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.DimensionType;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ITeleporter;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -28,14 +33,14 @@ public class BlockArcanaPortal extends Block {
     private int firetick;
     private int firemax = 200;
     private int dimId;
-    public static final AxisAlignedBB BLOCK_AABB = new AxisAlignedBB(0.0F, 0.0F, 0.0F, 1.0F, 0.0625F, 1.0F);
+    protected static final AxisAlignedBB ARCANA_PORTAL_AABB = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.75D, 1.0D);
 
     public BlockArcanaPortal(String name, int dimId) {
         super(Material.PORTAL);
         this.setSoundType(SoundType.STONE);
         this.setUnlocalizedName(name);
         this.setRegistryName(DivineRPG.MODID, name);
-        this.setCreativeTab(null);
+        this.setCreativeTab(DivineRPGTabs.BLOCKS);
         setLightLevel(1.0F);
         setBlockUnbreakable();
         setResistance(6000000F);
@@ -44,7 +49,7 @@ public class BlockArcanaPortal extends Block {
 
     @Override
     public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
-        return BLOCK_AABB;
+        return ARCANA_PORTAL_AABB;
     }
 
     @Override
@@ -93,17 +98,16 @@ public class BlockArcanaPortal extends Block {
             destination = DimensionType.OVERWORLD;
         }
 
-        DimensionHelper.transferEntity(entity, destination);
+        transferEntity(entity, destination);
     }
 
     @Override
     public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
-        super.neighborChanged(state, worldIn, pos, blockIn, fromPos);
-
-        IPortalDescription description = DimensionHelper.descriptionsByDimension.get(DimensionRegistry.arcanaDimension);
-        BlockPattern.PatternHelper frame = description.matchFrame(worldIn, pos);
-        if (frame == null) {
-            worldIn.setBlockToAir(pos);
+        if(blockIn == BlockRegistry.arcanaPortalFrame) {
+            BlockPattern.PatternHelper frame = DimensionHelper.arcanaPortalHelper.matchFrame(worldIn, pos);
+            if (frame == null) {
+                worldIn.setBlockToAir(pos);
+            }
         }
     }
 
@@ -114,5 +118,19 @@ public class BlockArcanaPortal extends Block {
         double distanceY = pos.getY() + 0.8F;
         double distanceZ = pos.getZ() + rand.nextFloat();
         worldIn.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, distanceX, distanceY, distanceZ, 0, 0, 0);
+    }
+
+    public static void transferEntity(Entity e, DimensionType modDimension) {
+        if (e == null || modDimension == null)
+            return;
+
+        ITeleporter teleporter;
+        if(e.dimension == GeneralConfig.dimensionIDs.arcanaDimensionID) {
+            teleporter = new ArcanaTeleporter(e.getServer().getWorld(0));
+        }
+        else {
+            teleporter = new ArcanaTeleporter(e.getServer().getWorld(GeneralConfig.dimensionIDs.arcanaDimensionID));
+        }
+        e.changeDimension(modDimension.getId(), teleporter);
     }
 }

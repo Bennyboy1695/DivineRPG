@@ -5,8 +5,10 @@ import divinerpg.dimensions.eden.EdenChunkGenerator;
 import divinerpg.registry.BiomeRegistry;
 import divinerpg.registry.BlockRegistry;
 import divinerpg.registry.DimensionRegistry;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.DimensionType;
 import net.minecraft.world.WorldProvider;
+import net.minecraft.world.WorldProvider.WorldSleepResult;
 import net.minecraft.world.biome.BiomeProviderSingle;
 import net.minecraft.world.gen.IChunkGenerator;
 import net.minecraftforge.fml.relauncher.Side;
@@ -27,12 +29,7 @@ public class WorldProviderApalachia extends WorldProvider {
 	public IChunkGenerator createChunkGenerator() {
 		return new ApalachiaChunkGenerator(world);
 	}
-	
-    @Override
-	public int getMoonPhase(long s) {
-        return (int)(s / 24000L % 8L + 8L) % 8;
-    }
-    
+
 	@Override
     public boolean canRespawnHere() {
         return false;
@@ -44,26 +41,18 @@ public class WorldProviderApalachia extends WorldProvider {
     }
 
 	@Override
-    @SideOnly(Side.CLIENT)
-    public float getCloudHeight() {
-        return 8.0F;
-    }
-
-	@Override
     public int getAverageGroundLevel() {
         return 70;
-    }
-
-	@Override
-    @SideOnly(Side.CLIENT)
-    public boolean doesXZShowFog(int x, int z) {
-        return false;
     }
 
 	@Override
 	public DimensionType getDimensionType() {
 		return DimensionRegistry.apalachiaDimension;
 	}
+
+	@Override
+    public float calculateCelestialAngle(long worldTime, float partialTicks) { return 0.3F; }
+
 	@Nullable
     @Override
 	public String getSaveFolder()

@@ -1,5 +1,6 @@
 package divinerpg.utils.portals;
 
+import divinerpg.compat.baubles.BaublesCompat;
 import divinerpg.config.GeneralConfig;
 import divinerpg.registry.DimensionRegistry;
 import divinerpg.utils.NbtUtil;
@@ -19,6 +20,7 @@ import net.minecraft.world.DimensionType;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.EntityTravelToDimensionEvent;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
@@ -76,12 +78,16 @@ public class VetheaPortal extends ServerPortal {
         player.inventory.clear();
 
         String loadFrom = tagNames.get(1);
-        NBTBase base = tag.getTag(loadFrom);
-        if (base instanceof NBTTagList) {
-            player.inventory.readFromNBT((NBTTagList) base);
+        NBTBase newDimensionNBT = tag.getTag(loadFrom);
+        if (newDimensionNBT instanceof NBTTagList) {
+            player.inventory.readFromNBT((NBTTagList) newDimensionNBT);
         }
 
         player.inventoryContainer.detectAndSendChanges();
+
+        if (Loader.isModLoaded("baubles")) {
+            BaublesCompat.changeBaubles(player, tag, sourceDimension == vetheaID);
+        }
     }
 
     @Override

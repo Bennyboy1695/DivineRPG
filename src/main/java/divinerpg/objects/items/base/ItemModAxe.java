@@ -16,23 +16,10 @@ import java.util.List;
 public class ItemModAxe extends ItemAxe {
 
 	public ItemModAxe(ToolMaterial material, String name) {
-		// Eskl decided the speed multiplier (the / 5 thing)
-		super(material, material.getAttackDamage(), (material.getAttackDamage() / material.getEfficiency()) / 5);
+		super(material, material.getAttackDamage(), -3.0F);
 		setRegistryName(DivineRPG.MODID, name);
 		setUnlocalizedName(name);
 		setCreativeTab(DivineRPGTabs.TOOLS);
-
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> infoList, ITooltipFlag flagIn) {
-		infoList.add(LocalizeUtils.efficiency(toolMaterial.getEfficiency()));
-		if (stack.getMaxDamage() > 0) {
-			infoList.add(LocalizeUtils.usesRemaining(stack.getMaxDamage() - stack.getItemDamage()));
-		} else {
-			infoList.add(LocalizeUtils.infiniteUses());
-		}
 	}
 
 	@Override

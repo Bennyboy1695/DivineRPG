@@ -21,6 +21,7 @@ public class DimensionHelper {
     public final static Map<DimensionType, IPortalDescription> descriptionsByDimension = new HashMap<>();
     private final static Map<DimensionType, ITeleporter> teleporterMapByModdedDimension = new HashMap<>();
 
+    public static final ArcanaPortalRoomDescription arcanaPortalHelper = new ArcanaPortalRoomDescription(BlockRegistry.arcanaPortalFrame, BlockRegistry.arcanaPortal);
     /**
      * Should call after DimensionRegistry.registerDimensions()
      */
@@ -37,10 +38,6 @@ public class DimensionHelper {
         VetheaPortal vetheaPortal = new VetheaPortal(128, 20 * 60);
         add(DimensionRegistry.vetheaDimension, new VetheaPortalDescription(), vetheaPortal);
 
-        ArcanaTeleporter teleporter = new ArcanaTeleporter(20 * 60);
-        add(DimensionRegistry.arcanaDimension,
-                new ArcanaPortalRoomDescription(BlockRegistry.arcanaPortalFrame, BlockRegistry.arcanaPortal),
-                teleporter);
     }
 
     private static void add(DimensionType type, IPortalDescription description, ITeleporter teleporter) {

@@ -24,13 +24,9 @@ public class ItemModPickaxe extends ItemPickaxe {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> infoList, ITooltipFlag flagIn) {
-		infoList.add(LocalizeUtils.efficiency(toolMaterial.getEfficiency()));
-		infoList.add(LocalizeUtils.harvestLevel(toolMaterial.getHarvestLevel()));
-		if (stack.getMaxDamage() > 0) {
-			infoList.add(LocalizeUtils.usesRemaining(stack.getMaxDamage() - stack.getItemDamage()));
-		} else {
-			infoList.add(LocalizeUtils.infiniteUses());
+	public void addInformation(ItemStack item, @Nullable World worldIn, List<String> list, ITooltipFlag flagIn) {
+		if(item.getMaxDamage() < 0) {
+			list.add(LocalizeUtils.infiniteUses());
 		}
 	}
 

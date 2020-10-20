@@ -1,14 +1,8 @@
 package divinerpg.compat;
 
-import java.lang.reflect.Constructor;
-
-import javax.annotation.Nullable;
-
 import divinerpg.config.Config;
-import divinerpg.objects.blocks.twilight.grass.BlockApalachiaGrass;
 import divinerpg.objects.entities.entity.apalachia.*;
 import divinerpg.objects.entities.entity.arcana.*;
-import divinerpg.objects.entities.entity.arcana.death.*;
 import divinerpg.objects.entities.entity.boss.*;
 import divinerpg.objects.entities.entity.boss.ayeraco.*;
 import divinerpg.objects.entities.entity.eden.*;
@@ -25,14 +19,8 @@ import jeresources.api.*;
 import jeresources.api.distributions.DistributionSquare;
 import jeresources.api.drop.PlantDrop;
 import jeresources.api.restrictions.*;
-import jeresources.entry.PlantEntry;
-import jeresources.registry.PlantRegistry;
-import jeresources.util.LogHelper;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
-import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 
 public class JERCompat {
@@ -243,5 +231,13 @@ public class JERCompat {
 		plantRegistry.register(new ItemStack(ItemRegistry.moonbulbSeeds), new PlantDrop(new ItemStack(ItemRegistry.moonbulb), 1, 1));
 		plantRegistry.register(new ItemStack(ItemRegistry.tomatoSeeds), new PlantDrop(new ItemStack(ItemRegistry.tomato), 1, 1));
 		plantRegistry.register(new ItemStack(ItemRegistry.whiteMushroomSeeds), new PlantDrop(new ItemStack(ItemRegistry.whiteMushroom), 1, 1));
-	}
+		plantRegistry.register(new ItemStack(ItemRegistry.aquamarineSeeds), new PlantDrop(new ItemStack(ItemRegistry.aquamarine), 1, 1));
+		plantRegistry.register(new ItemStack(ItemRegistry.eucalyptusRootSeeds), new PlantDrop(new ItemStack(BlockRegistry.eucalyptusLog), 1, 1));
+		plantRegistry.register(new ItemStack(ItemRegistry.firestockSeeds), new PlantDrop(new ItemStack(ItemRegistry.firestock), 1, 1));
+		plantRegistry.register(new ItemStack(ItemRegistry.hitchakSeeds), new PlantDrop(new ItemStack(ItemRegistry.hitchak), 1, 1));
+		plantRegistry.register(new ItemStack(ItemRegistry.lamonaSeeds), new PlantDrop(new ItemStack(ItemRegistry.lamona), 1, 1));
+		plantRegistry.register(new ItemStack(ItemRegistry.marsineSeeds), new PlantDrop(new ItemStack(ItemRegistry.marsine), 1, 1));
+		plantRegistry.register(new ItemStack(ItemRegistry.pinflySeeds), new PlantDrop(new ItemStack(ItemRegistry.pinfly), 1, 1));
+		plantRegistry.register(new ItemStack(ItemRegistry.veiloSeeds), new PlantDrop(new ItemStack(ItemRegistry.veilo), 1, 1));
+		}
 }

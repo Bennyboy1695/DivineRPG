@@ -28,6 +28,15 @@ public class MissingMappingHandler {
             else if(mapping.key.equals(new ResourceLocation("divinerpg:tar"))) {
                 mapping.remap(BlockRegistry.smolderingTar);
             }
+            else if(mapping.key.equals(new ResourceLocation("divinerpg:ancient_brick"))) {
+                mapping.remap(BlockRegistry.ancientBricks);
+            }
+            else if(mapping.key.equals(new ResourceLocation("divinerpg:degraded_brick"))) {
+                mapping.remap(BlockRegistry.degradedBricks);
+            }
+            else if(mapping.key.equals(new ResourceLocation("divinerpg:arcanium_ore"))) {
+                mapping.remap(BlockRegistry.rawArcanium);
+            }
         }
     }
 
@@ -49,6 +58,15 @@ public class MissingMappingHandler {
              }
              else if(mapping.key.equals(new ResourceLocation("divinerpg:tar"))) {
                  mapping.remap(Item.getItemFromBlock(BlockRegistry.smolderingTar));
+             }
+             else if(mapping.key.equals(new ResourceLocation("divinerpg:ancient_brick"))) {
+                 mapping.remap(Item.getItemFromBlock(BlockRegistry.ancientBricks));
+             }
+             else if(mapping.key.equals(new ResourceLocation("divinerpg:degraded_brick"))) {
+                 mapping.remap(Item.getItemFromBlock(BlockRegistry.degradedBricks));
+             }
+             else if(mapping.key.equals(new ResourceLocation("divinerpg:arcanium_ore"))) {
+                 mapping.remap(Item.getItemFromBlock(BlockRegistry.rawArcanium));
              }
          }
     }

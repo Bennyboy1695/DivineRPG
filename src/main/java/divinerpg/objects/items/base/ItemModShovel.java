@@ -20,18 +20,13 @@ public class ItemModShovel extends ItemSpade {
 		setRegistryName(DivineRPG.MODID, name);
 		setUnlocalizedName(name);
 		setCreativeTab(DivineRPGTabs.TOOLS);
-
-
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> infoList, ITooltipFlag flagIn) {
-		infoList.add(LocalizeUtils.efficiency(toolMaterial.getEfficiency()));
-		if (stack.getMaxDamage() > 0) {
-			infoList.add(LocalizeUtils.usesRemaining(stack.getMaxDamage() - stack.getItemDamage()));
-		} else {
-			infoList.add(LocalizeUtils.infiniteUses());
+	public void addInformation(ItemStack item, @Nullable World worldIn, List<String> list, ITooltipFlag flagIn) {
+		if(item.getMaxDamage() < 0) {
+			list.add(LocalizeUtils.infiniteUses());
 		}
 	}
 

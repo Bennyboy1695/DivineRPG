@@ -19,11 +19,13 @@ import divinerpg.objects.items.vanilla.ItemHealingStone;
 import divinerpg.objects.items.vanilla.ItemHordeHorn;
 import divinerpg.objects.items.vanilla.ItemTeleportationCrystal;
 import divinerpg.objects.items.vanilla.ItemTeleportationStar;
+import divinerpg.objects.items.vethea.ItemMinersAmulet;
 import divinerpg.objects.items.vethea.ItemNightmareBed;
 import divinerpg.objects.items.vethea.ItemVethean;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.MobEffects;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemSlab;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.DimensionType;
 import net.minecraftforge.event.RegistryEvent;
@@ -100,6 +102,16 @@ public class ItemRegistry {
     public static final Item rupeeIngot = null;
     @ObjectHolder("shadow_bar")
     public static final Item shadowBar = null;
+    
+    //Nuggets
+    @ObjectHolder("arlemite_nugget")
+    public static final Item arlemiteNugget = null;
+    @ObjectHolder("realmite_nugget")
+    public static final Item realmiteNugget = null;
+    @ObjectHolder("rupee_nugget")
+    public static final Item rupeeNugget = null;
+    @ObjectHolder("netherite_nugget")
+    public static final Item netheriteNugget = null;
 
     // Boss Spawners
     @ObjectHolder("call_of_the_watcher")
@@ -441,10 +453,10 @@ public class ItemRegistry {
     // Arcana miscellaneous
     @ObjectHolder("arcanium")
     public static final Item arcanium = null;
-    @ObjectHolder("charged_collector")
-    public static final Item chargedCollector = null;
     @ObjectHolder("collector")
     public static final Item collector = null;
+    @ObjectHolder("collector_fragments")
+    public static final Item collectorFragments = null;
     @ObjectHolder("dungeon_tokens")
     public static final Item dungeonTokens = null;
 
@@ -608,6 +620,14 @@ public class ItemRegistry {
     public static final Item frozenSlab = null;
     @ObjectHolder("eucalyptus_slab")
     public static final Item eucalyptusSlab = null;
+    @ObjectHolder("ancient_brick_slab")
+    public static final Item ancientBrickSlab = null;
+    @ObjectHolder("degraded_brick_slab")
+    public static final Item degradedBrickSlab = null;
+    @ObjectHolder("ancient_brick_slab_breakable")
+    public static final Item ancientBrickSlabBreakable = null;
+    @ObjectHolder("degraded_brick_slab_breakable")
+    public static final Item degradedBrickSlabBreakable = null;
 
     // shields
     @ObjectHolder("arlemite_shield")
@@ -668,6 +688,13 @@ public class ItemRegistry {
         register(registry, new ItemMod("realmite_ingot"));
         register(registry, new ItemMod("rupee_ingot"));
         register(registry, new ItemMod("shadow_bar"));
+        
+        // Nuggets
+        register(registry, new ItemMod("arlemite_nugget"));
+        register(registry, new ItemMod("realmite_nugget"));
+        register(registry, new ItemMod("rupee_nugget"));
+        register(registry, new ItemMod("netherite_nugget"));
+        
 
         // Boss spawners
         register(registry, new ItemBossSpawner("call_of_the_watcher", "message.watcher", x -> Objects.equals(x, DimensionType.NETHER), EntityTheWatcher::new));
@@ -771,11 +798,11 @@ public class ItemRegistry {
         register(registry, new ItemMod("mortum_soul"));
 
         // Twilight boss souls
-        register(registry, new ItemMod("eden_heart", true));
-        register(registry, new ItemMod("wildwood_heart", true));
-        register(registry, new ItemMod("apalachia_heart", true));
-        register(registry, new ItemMod("skythern_heart", true));
-        register(registry, new ItemMod("mortum_heart", true));
+        register(registry, new ItemMod("eden_heart"));
+        register(registry, new ItemMod("wildwood_heart"));
+        register(registry, new ItemMod("apalachia_heart"));
+        register(registry, new ItemMod("skythern_heart"));
+        register(registry, new ItemMod("mortum_heart"));
 
         // Twilight fragments
         register(registry, new ItemMod("eden_fragments"));
@@ -831,7 +858,7 @@ public class ItemRegistry {
         register(registry, new ItemReflector());
         register(registry, new ItemDivineAccumulator());
         register(registry, new ItemGhostbane());
-        register(registry, new ItemOrbOfLight());
+        register(registry, new ItemMod("orb_of_light"));
         register(registry, new ItemStaffEnrichment("staff_of_enrichment"));
         register(registry, new ItemArcanaCharge());
 
@@ -872,25 +899,25 @@ public class ItemRegistry {
 
         // Arcana miscellaneous
         register(registry, new ItemMod("arcanium"));
-        register(registry, new ItemChargedCollector("charged_collector"));
-        register(registry, new ItemMod("collector"));
+        register(registry, new ItemChargedCollector("collector"));
+        register(registry, new ItemMod("collector_fragments"));
         register(registry, new ItemMod("dungeon_tokens"));
 
         // Seeds
-        register(registry, new ItemArcanaSeeds("aquamarine_seeds", () -> BlockRegistry.aquamarinePlant));
-        register(registry, new ItemArcanaSeeds("eucalyptus_root_seeds", () -> BlockRegistry.eucalyptusPlant));
-        register(registry, new ItemArcanaSeeds("firestock_seeds", () -> BlockRegistry.firestockPlant));
-        register(registry, new ItemArcanaSeeds("hitchak_seeds", () -> BlockRegistry.hitchakPlant));
-        register(registry, new ItemArcanaSeeds("lamona_seeds", () -> BlockRegistry.lamonaPlant));
-        register(registry, new ItemArcanaSeeds("marsine_seeds", () -> BlockRegistry.marsinePlant));
-        register(registry, new ItemModSeeds("moonbulb_seeds", () -> BlockRegistry.moonbulbPlant, () -> Blocks.FARMLAND));
-        register(registry, new ItemArcanaSeeds("pinfly_seeds", () -> BlockRegistry.pinflyPlant));
+        register(registry, new ItemModSeeds("aquamarine_seeds", () -> BlockRegistry.aquamarinePlant));
+        register(registry, new ItemModSeeds("eucalyptus_root_seeds", () -> BlockRegistry.eucalyptusPlant));
+        register(registry, new ItemModSeeds("firestock_seeds", () -> BlockRegistry.firestockPlant));
+        register(registry, new ItemModSeeds("hitchak_seeds", () -> BlockRegistry.hitchakPlant));
+        register(registry, new ItemModSeeds("lamona_seeds", () -> BlockRegistry.lamonaPlant));
+        register(registry, new ItemModSeeds("marsine_seeds", () -> BlockRegistry.marsinePlant));
+        register(registry, new ItemModSeeds("moonbulb_seeds", () -> BlockRegistry.moonbulbPlant, () -> Blocks.GRASS));
+        register(registry, new ItemModSeeds("pinfly_seeds", () -> BlockRegistry.pinflyPlant));
         register(registry, new ItemModSeeds("pink_glowbone_seeds", () -> BlockRegistry.pinkGlowbonePlant, () -> Blocks.GRASS));
         register(registry, new ItemModSeeds("purple_glowbone_seeds", () -> BlockRegistry.purpleGlowbonePlant, () -> Blocks.GRASS));
         register(registry, new ItemModSeeds("sky_plant_seeds", () -> BlockRegistry.skyPlant, () -> Blocks.GRASS));
-        register(registry, new ItemModSeeds("tomato_seeds", () -> BlockRegistry.tomatoPlant, () -> Blocks.FARMLAND));
-        register(registry, new ItemArcanaSeeds("veilo_seeds", () -> BlockRegistry.veiloPlant));
-        register(registry, new ItemModSeeds("white_mushroom_seeds", () -> BlockRegistry.whiteMushroomPlant, () -> Blocks.FARMLAND));
+        register(registry, new ItemModSeeds("tomato_seeds", () -> BlockRegistry.tomatoPlant));
+        register(registry, new ItemModSeeds("veilo_seeds", () -> BlockRegistry.veiloPlant));
+        register(registry, new ItemModSeeds("white_mushroom_seeds", () -> BlockRegistry.whiteMushroomPlant));
 
         // Vethea
         // Vethea pearls
@@ -955,7 +982,6 @@ public class ItemRegistry {
         // Vethea miscellaneous
         register(registry, new ItemVethean("acid"));
         register(registry, new ItemVethean("band_of_heiva_hunting"));
-        register(registry, new ItemVethean("miners_amulet"));
         register(registry, new ItemVethean("rock_chunks"));
 
         //Slabs
@@ -967,15 +993,10 @@ public class ItemRegistry {
         register(registry, new ItemModSlab("divine_slab", BlockRegistry.divineSlab, BlockRegistry.divineSlab, BlockRegistry.divineDoubleSlab));
         register(registry, new ItemModSlab("frozen_slab", BlockRegistry.frozenSlab, BlockRegistry.frozenSlab, BlockRegistry.frozenDoubleSlab));
         register(registry, new ItemModSlab("eucalyptus_slab", BlockRegistry.eucalyptusSlab, BlockRegistry.eucalyptusSlab, BlockRegistry.eucalyptusDoubleSlab));
-
-        register(registry, new ItemModSlab("eden_double_slab", BlockRegistry.edenSlab, BlockRegistry.edenSlab, BlockRegistry.edenDoubleSlab));
-        register(registry, new ItemModSlab("wildwood_double_slab", BlockRegistry.wildwoodSlab, BlockRegistry.wildwoodSlab, BlockRegistry.wildwoodDoubleSlab));
-        register(registry, new ItemModSlab("apalachia_double_slab", BlockRegistry.apalachiaSlab, BlockRegistry.apalachiaSlab, BlockRegistry.apalachiaDoubleSlab));
-        register(registry, new ItemModSlab("skythern_double_slab", BlockRegistry.skythernSlab, BlockRegistry.skythernSlab, BlockRegistry.skythernDoubleSlab));
-        register(registry, new ItemModSlab("mortum_double_slab", BlockRegistry.mortumSlab, BlockRegistry.mortumSlab, BlockRegistry.mortumDoubleSlab));
-        register(registry, new ItemModSlab("divine_double_slab", BlockRegistry.divineSlab, BlockRegistry.divineSlab, BlockRegistry.divineDoubleSlab));
-        register(registry, new ItemModSlab("frozen_double_slab", BlockRegistry.frozenSlab, BlockRegistry.frozenSlab, BlockRegistry.frozenDoubleSlab));
-        register(registry, new ItemModSlab("eucalyptus_double_slab", BlockRegistry.eucalyptusSlab, BlockRegistry.eucalyptusSlab, BlockRegistry.eucalyptusDoubleSlab));
+        register(registry, new ItemModSlab("ancient_brick_slab", BlockRegistry.ancientBrickSlab, BlockRegistry.ancientBrickSlab, BlockRegistry.ancientBrickDoubleSlab));
+        register(registry, new ItemModSlab("degraded_brick_slab", BlockRegistry.degradedBrickSlab, BlockRegistry.degradedBrickSlab, BlockRegistry.degradedBrickDoubleSlab));
+        register(registry, new ItemModSlab("ancient_brick_slab_breakable", BlockRegistry.ancientBrickSlabBreakable, BlockRegistry.ancientBrickSlabBreakable, BlockRegistry.ancientBrickDoubleSlabBreakable));
+        register(registry, new ItemModSlab("degraded_brick_slab_breakable", BlockRegistry.degradedBrickSlabBreakable, BlockRegistry.degradedBrickSlabBreakable, BlockRegistry.degradedBrickDoubleSlabBreakable));
 
         // Shields
         register(registry, new DivineShield("arlemite_shield", DivineRPGTabs.ARMOR, () -> arlemiteIngot, 1200));
@@ -987,6 +1008,9 @@ public class ItemRegistry {
         register(registry, new DivineShield("apalachia_shield", DivineRPGTabs.ARMOR, () -> apalachiaChunk, 4800));
         register(registry, new DivineShield("skythern_shield", DivineRPGTabs.ARMOR, () -> skythernChunk, 9600));
         register(registry, new DivineShield("mortum_shield", DivineRPGTabs.ARMOR, () -> mortumChunk, 19200));
+
+        // Baubles
+        register(registry, new ItemMinersAmulet("miners_amulet"));
 
     }
 

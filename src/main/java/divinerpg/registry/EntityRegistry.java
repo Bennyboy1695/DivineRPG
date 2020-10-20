@@ -5,8 +5,8 @@ import divinerpg.config.GeneralConfig;
 import divinerpg.objects.entities.entity.EntityFrostCloud;
 import divinerpg.objects.entities.entity.apalachia.*;
 import divinerpg.objects.entities.entity.arcana.*;
-import divinerpg.objects.entities.entity.arcana.death.EntityDeathHound;
-import divinerpg.objects.entities.entity.arcana.death.EntityDeathcryx;
+import divinerpg.objects.entities.entity.arcana.EntityDeathHound;
+import divinerpg.objects.entities.entity.arcana.EntityDeathcryx;
 import divinerpg.objects.entities.entity.boss.*;
 import divinerpg.objects.entities.entity.eden.*;
 import divinerpg.objects.entities.entity.end.EntityEnderSpider;
@@ -18,6 +18,7 @@ import divinerpg.objects.entities.entity.nether.EntityHellPig;
 import divinerpg.objects.entities.entity.nether.EntityHellSpider;
 import divinerpg.objects.entities.entity.nether.EntityScorcher;
 import divinerpg.objects.entities.entity.nether.EntityWildfire;
+import divinerpg.objects.entities.entity.npc.*;
 import divinerpg.objects.entities.entity.projectiles.*;
 import divinerpg.objects.entities.entity.skythern.*;
 import divinerpg.objects.entities.entity.skythern.EntityAdvancedCori;
@@ -181,6 +182,7 @@ public class EntityRegistry {
                 buildEntityEntry(EntityDungeonDemon.class, "dungeon_demon", ARCANA),
                 buildEntityEntry(EntityDungeonPrisoner.class, "dungeon_prisoner", ARCANA),
                 buildEntityEntry(EntityFyracryx.class, "fyracryx", ARCANA),
+                buildEntityEntry(EntityKazari.class, "kazari", ARCANA),
                 buildEntityEntry(EntityLeorna.class, "leorna", ARCANA),
                 buildEntityEntry(EntityLivingStatue.class, "living_statue", ARCANA),
                 buildEntityEntry(EntityParatiku.class, "paratiku", ARCANA),
